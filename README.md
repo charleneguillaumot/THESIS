@@ -13,10 +13,12 @@ Guillaumot C, Artois J, Saucède T, Demoustier L, Moreau C, Eléaume M, Agüera 
 This function helps to crop the environmental descriptors dataset used to calibrate the BRT models (RasterStack) in latitude, longitude and bathymetry interval.
 
 # CLOCK-2 file 
-Detail and description of the script used to generate the spatial 2-fold CLOCK cross-validation procedure (Guillaumot et al. accepted).  
+Detail and description of the script used to generate the spatial 2-fold CLOCK cross-validation procedure (Guillaumot et al. accepted). See illustration B in the jpeg file. 
 
 # CLOCK-3 file 
 Detail and description of the script used to generate the spatial 3-fold CLOCK cross-validation procedure (Guillaumot et al. accepted). 
+See illustration C in the jpeg file. 
 
 # CLOCK-6 file 
 Detail and description of the script used to generate the spatial 6-fold CLOCK cross-validation procedure (Guillaumot et al. accepted). 
+See illustration D in the jpeg file. 
