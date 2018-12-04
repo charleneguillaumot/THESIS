@@ -1,4 +1,4 @@
-# THESIS
+# R scripts for Southern Ocean SDM
 Provide codes for applying Species Distribution Models in Southern Ocean case studies 
 
 Refers to published papers
