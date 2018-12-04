@@ -2,13 +2,14 @@
 ## Paper "Species distribution models in a data-poor and broad scale context", Progress in Oceanography
 ## 12/2018
 ## Guillaumot Charlène < charleneguillaumot21@gmail.com>
-## SCRIPT for application of 2-fold CLOCK spatial cross-validation procedure
+## SCRIPT for application of 3-fold CLOCK spatial cross-validation procedure
 ## use of Boosted Regression Trees
 #############################################################################################################
 library(raster)
 library(dismo)
 library(geosphere)
 library(ape)
+library(dplyr)
 
 #-----------------------------
 # Load the occurrence dataset
@@ -76,55 +77,100 @@ for (j in 1:cv.boot){
   # sampling of new background data for each loop step 
   background_data <- xyFromCell(KDE, sample(which(!is.na(values(KDE))), 1000, prob=values(KDE)[!is.na(values(KDE))]))
   colnames(background_data) <- colnames(odontaster.occ)
-
+  
   # the spatial sampling aims at defining areas containing either test or training data 
-  # for the CLOCK-2 method, a single diagonal transect is defined, cutting the Southern Ocean circle into 2 areas. One of the 2 areas contains the data that will be used to train the model, the other, the data that will be used to test the model after predictions 
+  # for the CLOCK-3 method, 3 triangle areas are defined, cutting the Southern Ocean circle into 3 areas. Two of the 3 areas contain the data that will be used to train the model, the last one, the data that will be used to test the model after predictions 
+  # the areas used to train the model are randomly defined at each loop step 
   
   #initialise vectors that are used to generate the spatial sampling structure
-  random_long <- seq(-180,180,1)
-  random_long_opp <- rep(NA,361)
-  
-    for (i in 1:361){
-    if (random_long[i] >= 0){
-      random_long_opp[random_long > 0] <- random_long[random_long > 0]-180
-    } else{
-      random_long_opp[random_long <= 0] <- random_long[random_long <= 0]+180
-    }
-  }
+  random_longA <- seq(0,179,1)
+  random_longB <- seq(-180,-1,1)
+  random_longC <- seq(0,180,1)
+  random_longD <- seq(-179,0,1)
+  random_long <- c(random_longA,random_longB,random_longC,random_longD)
   
   # sample a number between -180 and 180 to define the random sampling transect 
-  random_long_tirage <- sample(random_long,1)
-  random_long_tirage_t <- random_long_opp[random_long==random_long_tirage]
+  tirage <- sample(seq(181,541,1),1)
+  random_long_tirage <- random_long[tirage]
+  random_long_tirage_right <- random_long[tirage+120]
+  random_long_tirage_left <- random_long[tirage-120]
   
   ## define training and test groups (composed of both presence and background data)
   presence_tot <- unique(odontaster.occ)
-  
-  if (random_long_tirage>0){
-    presence_training <- subset(presence_tot,presence_tot[,1] <random_long_tirage & presence_tot[,1] >random_long_tirage_t)
-    background_training <- subset(background_data,background_data[,1] <random_long_tirage & background_data[,1] >random_long_tirage_t)
-    presence_test <- presence_tot[-which(presence_tot[,1] <random_long_tirage & presence_tot[,1] >random_long_tirage_t),]
-    background_test <- background_data[-which(background_data[,1] <random_long_tirage & background_data[,1] >random_long_tirage_t),]
-    borne_sup <- random_long_tirage
-    borne_inf <- random_long_tirage_t
-    
+  training_presences.occ <- NA;training_presences.occ_left <-NA;training_presences.occ_right <-NA
+  training_backgr.occ <- NA; training_backgr.occ_left <- NA;training_backgr.occ_right <-NA
+  test_presences.occ <- NA
+
+  # training presences
+  #---------------------
+  if (random_long_tirage_left < 0){
+    training_presences.occ_left <- subset(presence_tot,presence_tot[,1] > random_long_tirage_left & presence_tot[,1] < 0 )
   } else {
-    presence_training <- subset(presence_tot,presence_tot[,1] > random_long_tirage & presence_tot[,1] <random_long_tirage_t)
-    background_training <- subset(background_data,background_data[,1] >random_long_tirage & background_data[,1] <random_long_tirage_t)
-    presence_test <- presence_tot[-which(presence_tot[,1] > random_long_tirage & presence_tot[,1] <random_long_tirage_t),]
-    background_test <- background_data[-which(background_data[,1] >random_long_tirage & background_data[,1] <random_long_tirage_t),]
-    borne_sup <- random_long_tirage_t
-    borne_inf <- random_long_tirage
+    training_presences.occ_left <- subset(presence_tot,presence_tot[,1] > random_long_tirage_left)
   }
   
-  # record the position of the transect defined for sampling 
-  eval[18,j] <- borne_sup
-  eval[19,j] <- borne_inf
+  if(random_long_tirage_right>0){
+    training_presences.occ_right <- subset(presence_tot,presence_tot[,1] <random_long_tirage_right & presence_tot[,1] > 0)
+  } else {
+    training_presences.occ_right <- subset(presence_tot,presence_tot[,1] <random_long_tirage_right)
+  }
+  training_presences.occ <- rbind(training_presences.occ_right,training_presences.occ_left)
   
-  # finalise the training and test groups
-  training_presences.occ <- presence_training
-  training_backg.occ <- background_training
-  test_presences.occ <- presence_test
-  test_back.occ <- background_test
+  
+  if(random_long_tirage_right>0 & random_long_tirage_left>0){
+    training_presences.occ_supp_left <- subset(presence_tot,presence_tot[,1] <random_long_tirage & presence_tot[,1] > -179)
+    training_presences.occ_supp_right <- subset(presence_tot,presence_tot[,1] >random_long_tirage & presence_tot[,1] < 0)
+    training_presences.occ <- rbind(training_presences.occ_right,training_presences.occ_left,training_presences.occ_supp_left,training_presences.occ_supp_right)
+  } 
+  
+  if(random_long_tirage_right<0 & random_long_tirage_left<0){
+    training_presences.occ_inf_left <- subset(presence_tot,presence_tot[,1] <random_long_tirage & presence_tot[,1] > 0)
+    training_presences.occ_inf_right <- subset(presence_tot,presence_tot[,1] >random_long_tirage & presence_tot[,1] < 180)
+    training_presences.occ <- rbind(training_presences.occ_right,training_presences.occ_left,training_presences.occ_inf_left,training_presences.occ_inf_right)
+  } 
+    
+# Background
+#---------------------
+  if (random_long_tirage_left < 0){
+    training_backgr.occ_left <- subset(background_data,background_data[,1] > random_long_tirage_left & background_data[,1] < 0 )
+  } else {
+    training_backgr.occ_left <- subset(background_data,background_data[,1] > random_long_tirage_left)
+  }
+  
+  if(random_long_tirage_right>0){
+    training_backgr.occ_right <- subset(background_data,background_data[,1] <random_long_tirage_right & background_data[,1] > 0)
+  } else {
+    training_backgr.occ_right <- subset(background_data,background_data[,1] <random_long_tirage_right)
+  }
+  training_backgr.occ <- rbind(training_backgr.occ_left,training_backgr.occ_right) 
+  
+  
+  if(random_long_tirage_right>0 & random_long_tirage_left>0){
+    training_backgr.occ_supp_left <- subset(background_data,background_data[,1] <random_long_tirage & background_data[,1] > -179)
+    training_backgr.occ_supp_right <- subset(background_data,background_data[,1] >random_long_tirage & background_data[,1] < 0)
+    training_backgr.occ <- rbind(training_backgr.occ_left,training_backgr.occ_right,training_backgr.occ_supp_left,training_backgr.occ_supp_right) 
+    
+  } 
+  
+  if(random_long_tirage_right<0 & random_long_tirage_left<0){
+    training_backgr.occ_inf_left <- subset(background_data,background_data[,1] <random_long_tirage & background_data[,1] > 0)
+    training_backgr.occ_inf_right <- subset(background_data,background_data[,1] >random_long_tirage & background_data[,1] < 180)
+    training_backgr.occ <- rbind(training_backgr.occ_left,training_backgr.occ_right,training_backgr.occ_inf_left,training_backgr.occ_inf_right) 
+    
+  } 
+  
+  #  Test presence
+  #---------------------
+  test_presences.occ <- anti_join(presence_tot,training_presences.occ)
+
+  # record the positions of the transect defined for sampling 
+  borne <- random_long_tirage
+  borne_right <- random_long_tirage_right
+  borne_left <- random_long_tirage_left
+  eval[18,j] <- borne
+  eval[19,j] <- borne_right
+  eval[20,j] <- borne_left
+  
   
   ####### LAUNCH THE SDM ON TRAINING DATA #######
   #---------------------------------------------------------------------------------------------------
@@ -165,7 +211,7 @@ for (j in 1:cv.boot){
                        tree.complexity = tc,
                        learning.rate = lr,
                        bag.fraction = bf)
-
+  
   #------------------------------------------------------------
   # Get model outputs 
   #------------------------------------------------------------
@@ -187,7 +233,7 @@ for (j in 1:cv.boot){
   eval[6,j]<-eval3@pcor # probability of the COR
   eval[1,j]<-model.res$cv.statistics$discrimination.mean # AUC
   eval[2,j]<-model.res$self.statistics$discrimination # internal AUC 
-
+  
   # True Skill Statistics (TSS)
   specificity <- (eval3@TPR/(eval3@TPR+eval3@FPR))
   sensitivity <- (eval3@TNR/(eval3@TNR+eval3@FNR))
@@ -224,7 +270,7 @@ for (j in 1:cv.boot){
   dist.mat_visit.inv_resi <- 1/dist.mat_visit_resi
   diag(dist.mat_visit.inv_resi ) <-0
   dist.mat_visit.inv_resi <- base::replace(dist.mat_visit.inv_resi,dist.mat_visit.inv_resi==Inf,0)
-
+  
   eval_moran_resi <- ape::Moran.I(model.res$residuals,dist.mat_visit.inv_resi,na.rm=T) # numéro pixel
   eval[12,j] <- eval_moran_resi$observed
   eval[13,j] <- eval_moran_resi$p.value
