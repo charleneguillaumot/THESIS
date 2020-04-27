@@ -27,3 +27,6 @@ See illustration D in the jpeg file.
 
 # CLOCK-4 function
 A similar code was added to generate a 4-fold CLOCK spatial cross-validation procedure
+
+# Folder "Extrapolation paper" 
+Refers to example code of the paper Guillaumot et al. (2020) "Extrapolation in species distribution modelling. Application to Southern Ocean marine species" submitted to Progress in Oceanography. It contains lines of codes and data to run BRT model and calculate the proportion of model predictions that is actually extrapolation. It also contains a part in which the percentage of contribution of each environmental layer to extrapolation is calculated.  
