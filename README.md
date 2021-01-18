@@ -38,7 +38,7 @@ CLOCK-6 function
 -> Details and describes how to generate the spatial 6-fold CLOCK cross-validation procedure. See illustration D in the jpeg file also contained in the folder. <br>
 
 # delim.area file (Guillaumot et al. 2016)
-From Guillaumot C, A Martin, M Eléaume & T Saucède (2016) ‘SDMPlay’: Species Distribution Modelling Playground, CRAN. https://cran.r-project.org/web/packages/SDMPlay 
+From Guillaumot C, A Martin, M Eléaume & T Saucède (2016) ‘SDMPlay’: Species Distribution Modelling Playground, CRAN. https://cran.r-project.org/web/packages/SDMPlay <br>
 This function helps to crop the environmental descriptors dataset used to calibrate BRT models (RasterStack) in latitude, longitude and bathymetry interval.
 
 
