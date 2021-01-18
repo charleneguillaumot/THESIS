@@ -30,11 +30,11 @@ CV.BRT and Function_ja.R codes
 CLOCK-2 function 
 -> Details and describes how to generate the spatial 2-fold CLOCK cross-validation procedure. See illustration B in the jpeg file also contained in the folder. <br>
 CLOCK-3 function 
--> Details and describes how to generate the spatial 3-fold CLOCK cross-validation procedure. See illustration C in the jpeg file also contained in the folder. 
+-> Details and describes how to generate the spatial 3-fold CLOCK cross-validation procedure. See illustration C in the jpeg file also contained in the folder. <br>
 CLOCK-4 function
--> Details and describes how to generate the spatial 4-fold CLOCK cross-validation procedure. 
+-> Details and describes how to generate the spatial 4-fold CLOCK cross-validation procedure. <br>
 CLOCK-6 function
--> Details and describes how to generate the spatial 6-fold CLOCK cross-validation procedure. See illustration D in the jpeg file also contained in the folder. 
+-> Details and describes how to generate the spatial 6-fold CLOCK cross-validation procedure. See illustration D in the jpeg file also contained in the folder. <br>
 
 # delim.area file (Guillaumot et al. 2016)
 From Guillaumot C, A Martin, M Eléaume & T Saucède (2016) ‘SDMPlay’: Species Distribution Modelling Playground, CRAN. https://cran.r-project.org/web/packages/SDMPlay 
