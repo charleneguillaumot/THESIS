@@ -1,6 +1,6 @@
 # R scripts for Southern Ocean SDM
 Provide codes for applying Species Distribution Models and Bayesian integrated approach in Southern Ocean case studies.  
-Refers to codes used in published papers from my phD thesis (2017-2021).
+Refers to codes used in published papers from my PhD thesis (2017-2021).
 
 # Folder "Integrated approach" 
 From Guillaumot C, Buba Y, Belmaker J, Fourcy D, Danis B, Dubois P, Saucède T (submission ongoing). Simple or hybrid ? Next generation ecological models to study the distribution of Southern Ocean marine species. Ecology Letters.
@@ -26,9 +26,9 @@ It contains the two files that enable to calculate "extreme events" as described
 From Guillaumot C, Artois J, Saucède T, Demoustier L, Moreau C, Eléaume M, Agüera A, Danis B (2019). Broad-scale species distribution models applied to data-poor areas. Progress in Oceanography, 175, 198-207. https://doi.org/10.1016/j.pocean.2019.04.007
 
 CV.BRT and Function_ja.R codes
--> To calibrate random and spatial cross-validation procedures
+-> To calibrate random and spatial cross-validation procedures. <br>
 CLOCK-2 function 
--> Details and describes how to generate the spatial 2-fold CLOCK cross-validation procedure. See illustration B in the jpeg file also contained in the folder. 
+-> Details and describes how to generate the spatial 2-fold CLOCK cross-validation procedure. See illustration B in the jpeg file also contained in the folder. <br>
 CLOCK-3 function 
 -> Details and describes how to generate the spatial 3-fold CLOCK cross-validation procedure. See illustration C in the jpeg file also contained in the folder. 
 CLOCK-4 function
