@@ -1,0 +1,22 @@
+
+data {
+	N <- length(psi)
+}
+model {
+for (i in 1:N) {
+	psi[i] ~ dbeta(p[i], q[i])
+	p[i] <- mu[i] * phi
+	q[i] <- (1-mu[i]) * phi
+	
+	logit(mu[i]) <- a0 + a1*food_vector[i] + a2 * food_vector[i]^2
+}
+
+# priors
+  a0 ~ dnorm(bPrior[1,1], bPrior[1,2])
+  a1 ~ dnorm(bPrior[2,1], bPrior[2,2])
+  a2 ~ dnorm(bPrior[3,1], bPrior[3,2])
+
+## uninformative prior for phi from Gelman 2006
+phi <- U^2
+U ~ dunif(0,50)
+}
