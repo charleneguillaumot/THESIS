@@ -1,10 +1,11 @@
 # R scripts for Southern Ocean SDM
-Provide codes for applying Species Distribution Models and Bayesian integrated approach in Southern Ocean case studies 
-Refers to codes used in published papers from my phD thesis (2017-2021)
+Provide codes for applying Species Distribution Models and Bayesian integrated approach in Southern Ocean case studies.  
+Refers to codes used in published papers from my phD thesis (2017-2021).
 
 # Folder "Integrated approach" 
 From Guillaumot C, Buba Y, Belmaker J, Fourcy D, Danis B, Dubois P, Saucède T (submission ongoing). Simple or hybrid ? Next generation ecological models to study the distribution of Southern Ocean marine species. Ecology Letters.
-The codes to run the different methods developed in the paper are provided in this folder: simple SDM (GLM), spatial projection of the DEB, integration of the DEB within a SDM, and Bayesian integrated approach
+
+The codes to run the different methods developed in the paper are provided in this folder: simple SDM (GLM), spatial projection of the DEB, integration of the DEB within a SDM, and Bayesian integrated approach.
 All files are available (environment, presence records...) to entirely run the different models.
 
 
