@@ -1,6 +1,7 @@
 # R scripts for Southern Ocean SDM
 Provide codes for applying Species Distribution Models and Bayesian integrated approach in Southern Ocean case studies.  
 Refers to codes used in published papers from my PhD thesis (2017-2021).
+My contact: charleneguillaumot21@gmail.com
 
 # Folder "Integrated approach" 
 From Guillaumot C, Buba Y, Belmaker J, Fourcy D, Danis B, Dubois P, Saucède T (submission ongoing). Simple or hybrid ? Next generation ecological models to study the distribution of Southern Ocean marine species. Ecology Letters.
@@ -12,7 +13,7 @@ All files are available (environment, presence records...) to entirely run the d
 # Folder "Extrapolation paper" 
 From Guillaumot C, Moreau C, Danis B, Saucède T (2020). Extrapolation in species distribution modelling. Application to Southern Ocean marine species. Progress in Oceanography. 188, 102438. https://doi.org/10.1016/j.pocean.2020.102438
 
-It contains lines of codes and data to run BRT model and calculate the proportion of model predictions that is model extrapolation. It also contains a part in which the percentage of contribution of each environmental layer to extrapolation is calculated. Please send an email at charleneguillaumot21@gmail.com if you want the files bias_OK.asc and stack_intermediate.grd, that are missing to run the code properly.
+It contains lines of codes and data to run BRT model and calculate the proportion of model predictions that is model extrapolation. It also contains a part in which the percentage of contribution of each environmental layer to extrapolation is calculated. Please contact me if you want the files bias_OK.asc and stack_intermediate.grd, that are missing to run the code properly.
 
 
 # Folder "Choice of predictors" 
