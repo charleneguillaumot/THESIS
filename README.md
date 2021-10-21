@@ -1,3 +1,7 @@
+
+
+https://zenodo.org/badge/latestdoi/159364140
+
 # R scripts for Southern Ocean SDM
 Provide codes for applying Species Distribution Models and Bayesian integrated approach in Southern Ocean case studies.  
 Refers to codes used in published papers from my PhD thesis (2017-2021).
